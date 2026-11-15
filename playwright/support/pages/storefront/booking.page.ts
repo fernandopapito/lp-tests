@@ -4,6 +4,7 @@ export interface PassengerInput {
     seat: string
     fullName: string
     passport: string
+    birthDate: string
 }
 
 export interface PaymentInput {
@@ -23,6 +24,7 @@ export class BookingPage {
     readonly passengersTitle: Locator
     readonly fullNameInput: Locator
     readonly passportInput: Locator
+    readonly birthDateInput: Locator
     readonly paymentTitle: Locator
     readonly emailInput: Locator
     readonly cardNameInput: Locator
@@ -45,6 +47,7 @@ export class BookingPage {
         this.passengersTitle = page.getByRole('heading', { name: 'Cadastre os passageiros' })
         this.fullNameInput = page.getByRole('textbox', { name: 'Nome completo' })
         this.passportInput = page.getByRole('textbox', { name: 'Passaporte' })
+        this.birthDateInput = page.getByRole('textbox', { name: 'Data de nascimento' })
         this.paymentTitle = page.getByRole('heading', { name: 'Pagamento' })
         this.emailInput = page.getByRole('textbox', { name: 'E-mail de contato' })
         this.cardNameInput = page.getByRole('textbox', { name: 'Nome no cartão' })
@@ -88,9 +91,10 @@ export class BookingPage {
         await this.continueButton.click()
     }
 
-    async submitPassenger(fullName: string, passport: string) {
+    async submitPassenger(fullName: string, passport: string, birthDate: string) {
         await this.fullNameInput.fill(fullName)
         await this.passportInput.fill(passport)
+        await this.birthDateInput.fill(birthDate)
         await this.page.getByRole('button', { name: 'Ir para pagamento' }).click()
     }
 
@@ -101,6 +105,7 @@ export class BookingPage {
                 .filter({ hasText: `Assento ${passenger.seat}` })
             await card.getByRole('textbox', { name: 'Nome completo' }).fill(passenger.fullName)
             await card.getByRole('textbox', { name: 'Passaporte' }).fill(passenger.passport)
+            await card.getByRole('textbox', { name: 'Data de nascimento' }).fill(passenger.birthDate)
         }
         await this.page.getByRole('button', { name: 'Ir para pagamento' }).click()
     }

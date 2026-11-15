@@ -2,6 +2,7 @@ import { test, expect } from '../../support'
 
 import { Mission, Reservation, Ticket } from '../../support/types'
 import { cleanAndInsertMission, insertReservation, insertTickets } from '../../support/db'
+import { birthDateForAge } from '../../support/helpers'
 
 test('Emissão de tickets com sucesso após pagamento aprovado com Visa', async ({ app }) => {
   // Arrange
@@ -20,8 +21,8 @@ test('Emissão de tickets com sucesso após pagamento aprovado com Visa', async 
   await app.store.bookingPage.selectSeats(['A1', 'A2'])
   await app.store.bookingPage.continue()
   await app.store.bookingPage.submitPassengers([
-    { seat: 'A1', fullName: 'Buzz Aldrin', passport: 'XP12345' },
-    { seat: 'A2', fullName: 'Neil Armstrong', passport: 'XP67890' }
+    { seat: 'A1', fullName: 'Buzz Aldrin', passport: 'XP12345', birthDate: birthDateForAge(25) },
+    { seat: 'A2', fullName: 'Neil Armstrong', passport: 'XP67890', birthDate: birthDateForAge(25) }
   ])
 
   // Act
@@ -61,8 +62,8 @@ test('Emissão de tickets com sucesso após pagamento aprovado com Mastercard', 
   await app.store.bookingPage.selectSeats(['A1', 'A2'])
   await app.store.bookingPage.continue()
   await app.store.bookingPage.submitPassengers([
-    { seat: 'A1', fullName: 'Buzz Aldrin', passport: 'XP12345' },
-    { seat: 'A2', fullName: 'Neil Armstrong', passport: 'XP67890' }
+    { seat: 'A1', fullName: 'Buzz Aldrin', passport: 'XP12345', birthDate: birthDateForAge(25) },
+    { seat: 'A2', fullName: 'Neil Armstrong', passport: 'XP67890', birthDate: birthDateForAge(25) }
   ])
 
   // Act
@@ -102,8 +103,8 @@ test('Emissão de tickets com sucesso após pagamento aprovado com American Expr
   await app.store.bookingPage.selectSeats(['A1', 'A2'])
   await app.store.bookingPage.continue()
   await app.store.bookingPage.submitPassengers([
-    { seat: 'A1', fullName: 'Buzz Aldrin', passport: 'XP12345' },
-    { seat: 'A2', fullName: 'Neil Armstrong', passport: 'XP67890' }
+    { seat: 'A1', fullName: 'Buzz Aldrin', passport: 'XP12345', birthDate: birthDateForAge(25) },
+    { seat: 'A2', fullName: 'Neil Armstrong', passport: 'XP67890', birthDate: birthDateForAge(25) }
   ])
 
   // Act
@@ -142,7 +143,7 @@ test('Manter dados na tela quando o pagamento é recusado por dados incorretos',
   await app.store.bookingPage.go(mission.id)
   await app.store.bookingPage.selectSeats(['A1'])
   await app.store.bookingPage.continue()
-  await app.store.bookingPage.submitPassenger('Buzz Aldrin', 'XP12345')
+  await app.store.bookingPage.submitPassenger('Buzz Aldrin', 'XP12345', birthDateForAge(25))
 
   // Act
   await app.store.bookingPage.submitPayment({
@@ -174,7 +175,7 @@ test('Manter dados na tela quando o pagamento é negado pela operadora', async (
   await app.store.bookingPage.go(mission.id)
   await app.store.bookingPage.selectSeats(['A1'])
   await app.store.bookingPage.continue()
-  await app.store.bookingPage.submitPassenger('Buzz Aldrin', 'XP12345')
+  await app.store.bookingPage.submitPassenger('Buzz Aldrin', 'XP12345', birthDateForAge(25))
 
   // Act
   await app.store.bookingPage.submitPayment({
@@ -227,7 +228,7 @@ test('Bloqueio da reserva por concorrência de assentos no momento do processame
   await app.store.bookingPage.go(mission.id)
   await app.store.bookingPage.selectSeats(['A1'])
   await app.store.bookingPage.continue()
-  await app.store.bookingPage.submitPassenger('Buzz Aldrin', 'XP12345')
+  await app.store.bookingPage.submitPassenger('Buzz Aldrin', 'XP12345', birthDateForAge(25))
 
   await insertReservation(concurrentReservation)
   await insertTickets(concurrentTickets)
@@ -265,10 +266,10 @@ test('Compra de 4 assentos com cartão Visa', async ({ app }) => {
   await app.store.bookingPage.selectSeats(['A1', 'A2', 'B1', 'B2'])
   await app.store.bookingPage.continue()
   await app.store.bookingPage.submitPassengers([
-    { seat: 'A1', fullName: 'Buzz Aldrin', passport: 'XP10001' },
-    { seat: 'A2', fullName: 'Neil Armstrong', passport: 'XP10002' },
-    { seat: 'B1', fullName: 'Fernando Papito', passport: 'XP10003' },
-    { seat: 'B2', fullName: 'Papito Fernando', passport: 'XP10004' }
+    { seat: 'A1', fullName: 'Buzz Aldrin', passport: 'XP10001', birthDate: birthDateForAge(25) },
+    { seat: 'A2', fullName: 'Neil Armstrong', passport: 'XP10002', birthDate: birthDateForAge(25) },
+    { seat: 'B1', fullName: 'Fernando Papito', passport: 'XP10003', birthDate: birthDateForAge(25) },
+    { seat: 'B2', fullName: 'Papito Fernando', passport: 'XP10004', birthDate: birthDateForAge(25) }
   ])
 
   // Act

@@ -2,6 +2,7 @@ import { test, expect } from '../../support'
 
 import { Mission } from '../../support/types'
 import { cleanAndInsertMission } from '../../support/db'
+import { birthDateForAge } from '../../support/helpers'
 
 test('Compra de 1 assento sem desconto', async ({ app }) => {
   // Arrange
@@ -131,10 +132,10 @@ test('Finalização do pagamento com desconto aplicado', async ({ app }) => {
   await app.store.bookingPage.selectSeats(['A1', 'A2', 'B1', 'B2'])
   await app.store.bookingPage.continue()
   await app.store.bookingPage.submitPassengers([
-    { seat: 'A1', fullName: 'Buzz Aldrin', passport: 'XP10001' },
-    { seat: 'A2', fullName: 'Neil Armstrong', passport: 'XP10002' },
-    { seat: 'B1', fullName: 'Fernando Papito', passport: 'XP10003' },
-    { seat: 'B2', fullName: 'Papito Fernando', passport: 'XP10004' }
+    { seat: 'A1', fullName: 'Buzz Aldrin', passport: 'XP10001', birthDate: birthDateForAge(25) },
+    { seat: 'A2', fullName: 'Neil Armstrong', passport: 'XP10002', birthDate: birthDateForAge(25) },
+    { seat: 'B1', fullName: 'Fernando Papito', passport: 'XP10003', birthDate: birthDateForAge(25) },
+    { seat: 'B2', fullName: 'Papito Fernando', passport: 'XP10004', birthDate: birthDateForAge(25) }
   ])
 
   // Act

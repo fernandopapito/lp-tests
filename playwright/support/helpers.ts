@@ -14,3 +14,13 @@ export function formatDate(dateStr: string): string {
 
   return `${day} de ${monthName} de ${year}`
 }
+
+
+export function birthDateForAge(age: number): string {
+  const today = new Date();
+  const birthDate = new Date(today);
+
+  birthDate.setFullYear(today.getFullYear() - age);
+
+  return birthDate.toISOString().split('T')[0];
+}

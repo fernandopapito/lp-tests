@@ -53,7 +53,7 @@
 **E** a mensagem indica que o campo Passaporte é inválido e este ganha foco
 
 
-### Cenário: Não deve permitir o cadastro de pssageiro menor de idade
+### Cenário: Não deve permitir o cadastro de passageiro menor de idade
 
 **Dado** que estou na etapa de passageiros com assentos já selecionados  
 **E** eu preencho o formulário de passageiro com nome e passaporte validos
@@ -61,7 +61,7 @@
 **Quando** Submeto os formulários
 **Então** devo ver a mensagem de alerta com o texto "O passageiro precisa ser maior de idade."
 
-### Cenário: Deve permitir o cadastro de pssageiro maior de idade
+### Cenário: Deve permitir o cadastro de passageiro maior de idade
 
 **Dado** que estou na etapa de passageiros com assentos já selecionados  
 **E** eu preencho o formulário de passageiro com nome e passaporte validos

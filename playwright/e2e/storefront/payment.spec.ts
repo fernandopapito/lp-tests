@@ -247,3 +247,49 @@ test('Bloqueio da reserva por concorrência de assentos no momento do processame
     'Um dos assentos acabou de ser reservado. Escolha outro.'
   )
 })
+
+test('Compra de 4 assentos com cartão Visa', async ({ app }) => {
+  // Arrange
+  const mission: Mission = {
+    id: 'LP-1030A',
+    rocket: 'Starship',
+    baseId: 'alpha',
+    departureDate: '2030-10-10',
+    returnDate: '2030-10-17',
+    price: 1000.00
+  }
+
+  await cleanAndInsertMission(mission)
+  await app.services.stripe.approvePayment('Visa', 'pi_3UX6sz14NoBxd29D08GIaxi1')
+  await app.store.bookingPage.go(mission.id)
+  await app.store.bookingPage.selectSeats(['A1', 'A2', 'B1', 'B2'])
+  await app.store.bookingPage.continue()
+  await app.store.bookingPage.submitPassengers([
+    { seat: 'A1', fullName: 'Buzz Aldrin', passport: 'XP10001' },
+    { seat: 'A2', fullName: 'Neil Armstrong', passport: 'XP10002' },
+    { seat: 'B1', fullName: 'Fernando Papito', passport: 'XP10003' },
+    { seat: 'B2', fullName: 'Papito Fernando', passport: 'XP10004' }
+  ])
+
+  // Act
+  await app.store.bookingPage.submitPayment({
+    email: 'papito@lunarpass.dev',
+    cardName: 'Fernando Papito',
+    cardNumber: '4242 4242 4242 4242',
+    expiry: '12/30',
+    cvv: '123'
+  })
+
+  // Assert
+  await expect(app.store.bookingPage.reservationCode).toHaveText(/^[A-Z0-9]{6}$/)
+  await expect(app.store.bookingPage.reservationTickets).toHaveText([
+    'Buzz AldrinXP10001 · Passagem A1',
+    'Neil ArmstrongXP10002 · Passagem A2',
+    'Fernando PapitoXP10003 · Passagem B1',
+    'Papito FernandoXP10004 · Passagem B2',
+  ])
+  await expect(app.store.bookingPage.paymentApprovedMessage).toHaveText(
+    'Pagamento aprovado! Pode arrumar as malas: a Lua já está esperando por você.'
+  )
+})
+

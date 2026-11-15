@@ -18,6 +18,7 @@ export class BookingPage {
     readonly page: Page
     readonly continueButton: Locator
     readonly noSeatsMessage: Locator
+    readonly discount: Locator
     readonly totalPrice: Locator
     readonly passengersTitle: Locator
     readonly fullNameInput: Locator
@@ -30,6 +31,8 @@ export class BookingPage {
     readonly cvvInput: Locator
     readonly reservationCode: Locator
     readonly reservationTickets: Locator
+    readonly reservationTotalPrice: Locator
+    readonly reservationDiscount: Locator
     readonly paymentApprovedMessage: Locator
     readonly alert: Locator
 
@@ -37,6 +40,7 @@ export class BookingPage {
         this.page = page
         this.continueButton = page.getByRole('button', { name: 'Continuar' })
         this.noSeatsMessage = page.getByRole('paragraph').filter({ hasText: 'Nenhum assento escolhido' })
+        this.discount = page.getByTestId('summary-discount')
         this.totalPrice = page.getByTestId('summary-total-price')
         this.passengersTitle = page.getByRole('heading', { name: 'Cadastre os passageiros' })
         this.fullNameInput = page.getByRole('textbox', { name: 'Nome completo' })
@@ -49,6 +53,8 @@ export class BookingPage {
         this.cvvInput = page.getByRole('textbox', { name: 'CVV' })
         this.reservationCode = page.getByTestId('reservation-code')
         this.reservationTickets = page.getByTestId('reservation-ticket')
+        this.reservationTotalPrice = page.getByTestId('reservation-total-price')
+        this.reservationDiscount = page.getByTestId('reservation-discount')
         this.paymentApprovedMessage = page
             .getByTestId('reservation-confirmation')
             .getByRole('paragraph')
@@ -72,6 +78,10 @@ export class BookingPage {
         for (const seat of seats) {
             await this.seatButton(seat).click()
         }
+    }
+
+    async unselectSeat(seat: string) {
+        await this.seatButton(seat).click()
     }
 
     async continue() {

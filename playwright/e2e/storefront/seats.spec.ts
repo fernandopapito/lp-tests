@@ -44,7 +44,7 @@ test('Avançar com seleção máxima de assentos permitida', async ({ app }) => 
   await app.store.bookingPage.continue()
 
   // Assert
-  await expect(app.store.bookingPage.totalPrice).toHaveText('USD 4,000.00')
+  await expect(app.store.bookingPage.totalPrice).toHaveText('USD 3,600.00')
   await expect(app.store.bookingPage.passengersTitle).toBeVisible()
 })
 

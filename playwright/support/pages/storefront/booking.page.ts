@@ -66,7 +66,7 @@ export class BookingPage {
     }
 
     async go(missionId: string) {
-        await this.page.goto(`http://localhost:3000/booking/${missionId}`)
+        await this.page.goto(`/booking/${missionId}`)
     }
 
     seatButton(seat: string): Locator {

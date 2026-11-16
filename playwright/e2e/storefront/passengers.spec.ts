@@ -191,3 +191,26 @@ test('Deve permitir o cadastro de passageiro maior de idade', async ({ app }) =>
   // Assert
   await expect(app.store.bookingPage.paymentTitle).toBeVisible()
 })
+
+test('Deve permitir o cadastro de passageiro que completa 18 anos hoje', async ({ app }) => {
+  // Arrange
+  const mission: Mission = {
+    id: 'LP-0130G',
+    rocket: 'Starship',
+    baseId: 'selene',
+    departureDate: '2029-10-24',
+    returnDate: '2029-10-31',
+    price: 1000.00
+  }
+
+  await cleanAndInsertMission(mission)
+  await app.store.bookingPage.go(mission.id)
+  await app.store.bookingPage.selectSeats(['A1'])
+  await app.store.bookingPage.continue()
+
+  // Act
+  await app.store.bookingPage.submitPassenger('Buzz Aldrin', 'XP12345', birthDateForAge(18))
+
+  // Assert
+  await expect(app.store.bookingPage.paymentTitle).toBeVisible()
+})

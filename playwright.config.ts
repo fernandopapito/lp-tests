@@ -26,7 +26,8 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'on',
+    video: 'off',
     screenshot: 'only-on-failure'
   },
 
@@ -37,7 +38,7 @@ export default defineConfig({
       testDir: './playwright/e2e/mission-control',
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: 'http://localhost:3000',
+        baseURL: 'https://lunarpass-papito.vercel.app',
       },
     },
     {
@@ -45,7 +46,7 @@ export default defineConfig({
       testDir: './playwright/e2e/storefront',
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: 'http://localhost:3000', // TODO: confirmar baseURL do storefront
+        baseURL: 'https://lunarpass-papito.vercel.app', // TODO: confirmar baseURL do storefront
       },
     },
   ],
